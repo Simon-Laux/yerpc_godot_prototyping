@@ -1,0 +1,80 @@
+[gd_scene load_steps=3 format=3 uid="uid://brm426x2tm5xs"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_qb1l5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_akeo7"]
+font_size = 30
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_qb1l5")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -31.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="msginput" type="TextEdit" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "message"
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+layout_mode = 2
+text = "continue"
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -200.0
+offset_bottom = 200.0
+grow_horizontal = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 198.0
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+text = "User"
+label_settings = SubResource("LabelSettings_akeo7")
+
+[node name="name" type="TextEdit" parent="Panel"]
+layout_mode = 2
+offset_top = 49.0
+offset_right = 198.0
+offset_bottom = 87.0
+text = "username"
+placeholder_text = "name"
+
+[node name="color" type="TextEdit" parent="Panel"]
+layout_mode = 2
+offset_left = 1.0
+offset_top = 100.0
+offset_right = 199.0
+offset_bottom = 138.0
+text = "green"
+placeholder_text = "color"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_right = 821.0
+offset_bottom = 494.0
+
+[connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]
