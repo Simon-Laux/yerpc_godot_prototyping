@@ -1,5 +1,7 @@
 extends YerpcBaseTransport
 
+signal connected
+
 # Our WebSocketClient instance
 var socket := WebSocketPeer.new()
 
@@ -11,6 +13,7 @@ func _process(delta):
 	socket.poll()
 	var state = socket.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
+		connected.emit()
 		while socket.get_available_packet_count():
 			var packet =  socket.get_packet()
 			#print("Packet: ", packet)
