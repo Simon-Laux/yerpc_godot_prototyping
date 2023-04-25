@@ -24,7 +24,10 @@ func on_message(string: String):
 				# call callback with return value
 				var callback = callbacks[str(data_received.id)]
 				if callbacks:
-					callback.emit(data_received.result)
+					if data_received.has("error"):
+						callback.emit(Result.Err.new(data_received.error))
+					else:
+						callback.emit(Result.Ok.new(data_received.result))
 				else:
 					printerr("error: callback for invocation id", data_received.id, "is not set")
 			else:
@@ -36,7 +39,7 @@ func on_message(string: String):
 		print("JSON Parse Error: ", json_object.get_error_message(), " in ", string, " at line ", json_object.get_error_line())
 
 	
-func invoke_api(method: String, parameters):
+func invoke_api(method: String, parameters) -> Result:
 	invocation_id_counter = invocation_id_counter + 1
 	var id = invocation_id_counter
 	# compose json
@@ -52,7 +55,7 @@ func invoke_api(method: String, parameters):
 	callbacks.erase(id)
 	return result
 
-func notify(method:String, parameters):
+func notify(method: String, parameters):
 	send_message({"jsonrpc": "2.0", "method": method, "params": parameters})
 
 

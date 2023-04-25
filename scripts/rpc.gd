@@ -51,14 +51,24 @@ class ChatMessage:
 		return output
 
 
+
 ##  Send a chat message.\n\n Pass the message to send.
-func send(message: ChatMessage) -> int:
+func send(message: ChatMessage) -> Result:
 	return await transport.invoke_api("send", [message.to_dict()])
 
 ## List chat messages.
-func list() -> Array[ChatMessage]:
-	return ChatMessage.array_from_generic_array(await transport.invoke_api("list", []))
+func list() -> Result:
+	var raw_result: Result = await transport.invoke_api("list", [])
+	if raw_result.is_ok:
+		return Result.Ok.new(ChatMessage.array_from_generic_array((raw_result as Result.Ok).result))
+	else:
+		return raw_result
+	
+
 
 
 
 # limitations: because of https://github.com/godotengine/godot-proposals/issues/56 we need to convert from dict to our classes
+
+
+

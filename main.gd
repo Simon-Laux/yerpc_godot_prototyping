@@ -24,7 +24,15 @@ func _on_button_pressed():
 	)
 	$HBoxContainer/msginput.clear()
 	var result = await rpc_remote.send(msg)
-	print("Got back: ", result)
+	if result.is_ok:
+		print("Got back: ", (result as Result.Ok).result as int)
+	else:
+		printerr("Got error back: ", (result as Result.Err).message)
 	
-	print(await rpc_remote.list())
+	var result2 = await rpc_remote.list()
+	if result2.is_ok:
+		print("Msg List: ", (result2 as Result.Ok).result as Array[RPCRemote.ChatMessage])
+	else:
+		printerr("Got error back: ", (result2 as Result.Err).message)
+	
 	pass
