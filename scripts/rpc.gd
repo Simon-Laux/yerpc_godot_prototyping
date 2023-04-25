@@ -71,4 +71,15 @@ func list() -> Result:
 # limitations: because of https://github.com/godotengine/godot-proposals/issues/56 we need to convert from dict to our classes
 
 
+class type_result:
+	static func send(result):
+		var typed_result := (result as Result.Ok).result as int
+		assert(typed_result != null)
+		return typed_result
+	
+	static func list(result: Result)->Array[RPCRemote.ChatMessage]:
+		var typed_result := (result as Result.Ok).result as Array[RPCRemote.ChatMessage]
+		assert(typed_result != null)
+		return typed_result
+		
 

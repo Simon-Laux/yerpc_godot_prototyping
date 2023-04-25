@@ -14,9 +14,11 @@ class Err extends Result:
 	func _init(msg: String):
 		message = msg
 		super(false)
+	func _to_string():
+		return message
 
 class Ok extends Result:
 	var result
-	func _init(result):
-		self.result = result
+	func _init(res):
+		self.result = res
 		super(true)

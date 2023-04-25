@@ -73,8 +73,13 @@ text = "green"
 placeholder_text = "color"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_right = 821.0
-offset_bottom = 494.0
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.946
+offset_right = -202.0
+offset_bottom = 0.991974
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="pressed" from="HBoxContainer/Button" to="." method="_on_button_pressed"]

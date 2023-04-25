@@ -7,6 +7,8 @@ var rpc_remote: RPCRemote = load("res://scripts/rpc.gd").new()
 func _ready():
 	add_child(transport)
 	rpc_remote.transport = transport
+	await transport.connected
+	load_messages()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,14 +27,22 @@ func _on_button_pressed():
 	$HBoxContainer/msginput.clear()
 	var result = await rpc_remote.send(msg)
 	if result.is_ok:
-		print("Got back: ", (result as Result.Ok).result as int)
+		print("Got back: ", rpc_remote.type_result.send(result))
 	else:
-		printerr("Got error back: ", (result as Result.Err).message)
+		printerr("Got error back: ", result)
 	
-	var result2 = await rpc_remote.list()
-	if result2.is_ok:
-		print("Msg List: ", (result2 as Result.Ok).result as Array[RPCRemote.ChatMessage])
-	else:
-		printerr("Got error back: ", (result2 as Result.Err).message)
-	
+	load_messages()
 	pass
+
+func load_messages():
+	var result = await rpc_remote.list()
+	if result.is_ok:
+		var list := rpc_remote.type_result.list(result)
+		var new_text = ""
+		for msg in list:
+			new_text += "[" + msg.user.name + "]: " + msg.content + "\n"
+		$RichTextLabel.text = new_text
+		$RichTextLabel.scroll_following = true
+	else:
+		printerr("Got error back: ", result)
+	
